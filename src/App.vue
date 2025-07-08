@@ -19,11 +19,15 @@ const toggle = (item) => visibility[item] = !visibility[item]
 <template>
   <div class="dashboard">
     <!-- Header section of the dashboard -->
-    <header>My Dashboard</header>
+    <header style="grid-area: header;">My Dashboard</header>
     <!-- Sidebar section (can add navigation or links here) -->
-    <aside>Sidebar</aside>
+    <aside style="grid-area: sidebar;">Sidebar
+
+    </aside>
+  
+   
     <!-- Main content area where widgets are displayed -->
-    <main>
+    <main style="grid-area: main;">
       Main Content Area
       <!-- Loop through each widget and display it with a toggle button -->
       <div v-for="item in widgets" :key="item" class="widget-row">
@@ -65,12 +69,18 @@ const toggle = (item) => visibility[item] = !visibility[item]
   }
   aside {
     grid-area: sidebar;
-    background: #ecf0f1;
+    background: #555;   /* dark grey background */
+    color: #fff;        /* white text for readability */
     padding: 1em;
+
   }
-  main {
+  main{
     grid-area: main;
+    background: #f9f9f9;    /* very light gray for a bit of contrast */
+    color: #333;             /* dark text for readability */
     padding: 1em;
+    overflow-y: auto;
+
   }
 
   .widget-row {
