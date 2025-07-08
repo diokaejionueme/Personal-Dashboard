@@ -11,6 +11,7 @@ Personal Dashboard is a simple web application built with Vue.js. It aims to pro
 - Built with Vue.js
 - Modular and customizable components
 - Responsive design
+- New Note Widget component (`NoteWidget.vue`) for creating and managing personal notes
 
 ## Getting Started
 
@@ -30,6 +31,11 @@ Personal Dashboard is a simple web application built with Vue.js. It aims to pro
 ## License
 
 This project is licensed under the MIT License.
+
+## Author
+
+**Dioka Ejionueme**  
+Email: [diokajr@gmail.com](mailto:diokajr@gmail.com)
 
 ---
 

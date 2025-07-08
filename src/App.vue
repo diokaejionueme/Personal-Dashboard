@@ -1,6 +1,7 @@
 <script setup>
 // Import the reactive function from Vue to make objects reactive
 import { reactive } from 'vue';
+import NoteWidget from './components/NoteWidget.vue';
 
 // List of widget names to display on the dashboard
 const widgets = ['Weather', 'Notes', 'News', 'Clock']
@@ -27,11 +28,18 @@ const toggle = (item) => visibility[item] = !visibility[item]
       <!-- Loop through each widget and display it with a toggle button -->
       <div v-for="item in widgets" :key="item" class="widget-row">
         <!-- Show the widget only if its visibility is true -->
-        <div v-show="visibility[item]" class="widget">
-          {{ item }}
+        <div class="widget">
+          <!--render NoteWidget when item is "Notes"-->
+          <NoteWidget 
+           v-show="item === 'Notes' && visibility[item]"
+          />
+          <!--Fallback placeholder for all other widgets-->
+          <div v-show="visibility[item]">  
+            {{ item }} Widget
+          </div>
         </div>
         <!-- Button to toggle the widget's visibility on double-click -->
-        <button @dblclick="toggle(item)">
+        <button @click="toggle(item)">
           {{ visibility[item] ? 'Hide' : 'Show' }}
         </button>
       </div>
