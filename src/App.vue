@@ -2,6 +2,7 @@
 // Import the reactive function from Vue to make objects reactive
 import { reactive } from 'vue';
 import NoteWidget from './components/NoteWidget.vue';
+import ClockWidget from './components/ClockWidget.vue';
 
 // List of widget names to display on the dashboard
 const widgets = ['Weather', 'Notes', 'News', 'Clock']
@@ -36,6 +37,9 @@ const toggle = (item) => visibility[item] = !visibility[item]
           <!--render NoteWidget when item is "Notes"-->
           <NoteWidget 
            v-show="item === 'Notes' && visibility[item]"
+          />
+          <ClockWidget
+           v-show="item === 'Clock' && visibility[item]"
           />
           <!--Fallback placeholder for all other widgets-->
           <div v-show="visibility[item]">  
@@ -88,7 +92,10 @@ const toggle = (item) => visibility[item] = !visibility[item]
     align-items: center;
     margin-bottom: 0.5em;
   }
+  .widget-row button{
+    background-color: #800080;
 
+  }
   .widget {
     margin-right: 1em;
   }

@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-Personal Dashboard is a simple web application built with Vue.js. It aims to provide a customizable dashboard for tracking personal tasks, notes, and other widgets.
+Personal Dashboard is a simple web application built with Vue.js. It aims to provide a customizable dashboard for tracking personal tasks, notes, and other widgets. The latest update introduces a real-time clock widget and an improved notes widget for enhanced productivity.
 
 ## Features
 
@@ -12,6 +12,7 @@ Personal Dashboard is a simple web application built with Vue.js. It aims to pro
 - Modular and customizable components
 - Responsive design
 - New Note Widget component (`NoteWidget.vue`) for creating and managing personal notes
+- New Clock Widget component (`Clockwidget.vue`) for displaying the current time in real-time
 
 ## Getting Started
 

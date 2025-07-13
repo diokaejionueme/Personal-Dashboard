@@ -37,6 +37,7 @@
             :value="newNote"
             @input="e => newNote = e.target.value"
             placeholder="Type a note"
+            class="new-note"
         />
         <button @click="addNote()">Add</button>
 
@@ -50,12 +51,40 @@
 </template>
 
 <style scoped>
-    .note-widget{
+
+.note-widget{
+    background: #eef6fd;
+    border: 2px solid #4a90e2;
+    border-radius: 6px;
+    padding: 1em;
+    margin-bottom: 1em;
+    color: #2a3d66;
+    font-weight: bold;
+}
+
+.note-widget ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.note-widget li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.new-note{
+    font-size: 1.1rem
+}
+    /* .note-widget{
         border: 1px solid #ccc;
         padding: 1rem;
         margin-bottom: 1em
     }
 
     .note-widget ul{list-style: none; padding: 0;}
-    .note-widget li{display: flex; justify-content: space-between;}
+    .note-widget li{display: flex; justify-content: space-between;} */
 </style>
