@@ -3,6 +3,7 @@
 import { reactive } from 'vue';
 import NoteWidget from './components/NoteWidget.vue';
 import ClockWidget from './components/ClockWidget.vue';
+import WeatherWidget from './components/WeatherWidget.vue';
 
 // List of widget names to display on the dashboard
 const widgets = ['Weather', 'Notes', 'News', 'Clock']
@@ -20,7 +21,7 @@ const toggle = (item) => visibility[item] = !visibility[item]
 <template>
   <div class="dashboard">
     <!-- Header section of the dashboard -->
-    <header style="grid-area: header;">My Dashboard</header>
+    <header style="grid-area: header;">Dioka's Dashboard</header>
     <!-- Sidebar section (can add navigation or links here) -->
     <aside style="grid-area: sidebar;">Sidebar
 
@@ -40,6 +41,10 @@ const toggle = (item) => visibility[item] = !visibility[item]
           />
           <ClockWidget
            v-show="item === 'Clock' && visibility[item]"
+          />
+
+          <WeatherWidget
+            v-show="item ==='Weather' && visibility[item]"
           />
           <!--Fallback placeholder for all other widgets-->
           <div v-show="visibility[item]">  
@@ -93,7 +98,7 @@ const toggle = (item) => visibility[item] = !visibility[item]
     margin-bottom: 0.5em;
   }
   .widget-row button{
-    background-color: #800080;
+    background-color: #720e9e
 
   }
   .widget {
