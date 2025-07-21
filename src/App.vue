@@ -1,23 +1,10 @@
 <script setup>
 // Import the reactive function from Vue to make objects reactive
-import { ref, watch, reactive } from 'vue';
+import { reactive } from 'vue';
 import NoteWidget from './components/NoteWidget.vue';
 import ClockWidget from './components/ClockWidget.vue';
 import WeatherWidget from './components/WeatherWidget.vue';
 import NewsWidget from './components/newsWidget.vue';
-
-
-//Dark Mode
-
- const isDark = ref(localStorage.getItem('darkMode') === 'true')
-
- function toggleDarkMode(){
-  isDark.value = !isDark.value
- }
-
- watch(isDark, val =>{
-  localStorage.setItem('darkMode', val)
- })
 
 // List of widget names to display on the dashboard
 const widgets = ['Weather', 'Notes', 'News', 'Clock']
@@ -33,14 +20,11 @@ const toggle = (item) => visibility[item] = !visibility[item]
 </script>
 
 <template>
-  <div :class="[dashboard, {dark: isDark}]">
+  <div class="dashboard">
     <!-- Header section of the dashboard -->
     <header style="grid-area: header;">Dioka's Dashboard</header>
     <!-- Sidebar section (can add navigation or links here) -->
     <aside style="grid-area: sidebar;">Sidebar
-      <button @click="toggleDarkMode()">
-        {{ isDark ? '☀️ Light Mode' : '🌙 Dark Mode' }}
-      </button>
 
     </aside>
   
@@ -67,7 +51,6 @@ const toggle = (item) => visibility[item] = !visibility[item]
           <NewsWidget 
             v-show="item==='News' && visibility[item]"
           />
-
           <!--Fallback placeholder for all other widgets-->
           <div v-show="visibility[item]">  
             {{ item }} Widget
@@ -91,35 +74,7 @@ const toggle = (item) => visibility[item] = !visibility[item]
       "header header"
       "sidebar main";
     height: 100vh;
-    --bg: #f9f9f9;
-    --text: #333;
-    --widget-bg: #fff;
-    --widget-border: #ccc;
-
   }
-
-aside,
-main {
-  background: var(--widget-bg);
-  color: var(--text);
-}
-
-.news-widget,
-.note-widget,
-.clock-widget,
-.weather-widget {
-  border-color: var(--widget-border);
-}
-
-
-
-  .dashboard.dark {
-  --bg: #2e2e2e;
-  --text: #ddd;
-  --widget-bg: #3a3a3a;
-  --widget-border: #555;
-}
-
   header {
     grid-area: header;
     background: #34495e;
@@ -154,27 +109,4 @@ main {
   .widget {
     margin-right: 1em;
   }
-
-  @media (max-width: 768px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-    grid-template-rows:
-      60px
-      auto
-      1fr;
-    grid-template-areas:
-      "header"
-      "main"
-      "sidebar";
-  }
-
-  aside {
-    grid-area: sidebar;
-  }
-
-  main {
-    grid-area: main;
-  }
-
-}
 </style>
