@@ -1,112 +1,142 @@
 <script setup>
-// Import the reactive function from Vue to make objects reactive
-import { reactive } from 'vue';
-import NoteWidget from './components/NoteWidget.vue';
-import ClockWidget from './components/ClockWidget.vue';
-import WeatherWidget from './components/WeatherWidget.vue';
-import NewsWidget from './components/newsWidget.vue';
+// —— Dark‑mode toggle logic ——
+import { ref, onMounted, watch, reactive } from 'vue'
 
-// List of widget names to display on the dashboard
+// State for dark mode
+const isDark = ref(false)
+// Toggle dark mode state
+function toggleDark() {
+  isDark.value = !isDark.value
+}
+
+// Watch for changes and update document class and localStorage
+watch(isDark, val => {
+  document.documentElement.classList.toggle('dark', val)
+  localStorage.setItem('theme', val ? 'dark' : 'light')
+})
+
+// On mount, restore theme from localStorage
+onMounted(() => {
+  const saved = localStorage.getItem('theme')
+  if (saved === 'dark') {
+    isDark.value = true
+    document.documentElement.classList.add('dark')
+  }
+})
+// —— End dark‑mode logic ——
+
+// —— Widget import and visibility logic ——
+import NoteWidget from './components/NoteWidget.vue'
+import ClockWidget from './components/ClockWidget.vue'
+import WeatherWidget from './components/WeatherWidget.vue'
+import NewsWidget from './components/newsWidget.vue'
+
+// List of widget names
 const widgets = ['Weather', 'Notes', 'News', 'Clock']
-
-// Create a reactive object to track the visibility of each widget
+// Track which widgets are visible
 const visibility = reactive({})
-
-// Set the initial visibility of each widget to true (visible)
 widgets.forEach(item => visibility[item] = true)
-
-// Function to toggle the visibility of a widget when called
-const toggle = (item) => visibility[item] = !visibility[item]
+// Toggle widget visibility
+const toggle = item => visibility[item] = !visibility[item]
 </script>
 
 <template>
+  <!-- Main dashboard layout -->
   <div class="dashboard">
-    <!-- Header section of the dashboard -->
-    <header style="grid-area: header;">Dioka's Dashboard</header>
-    <!-- Sidebar section (can add navigation or links here) -->
-    <aside style="grid-area: sidebar;">Sidebar
+    <header>Dioka's Dashboard</header>
 
+    <aside>
+      <h2>Tools</h2>
+      <!-- Dark Mode Toggle Button -->
+      <button @click="toggleDark" style="margin-bottom:1em;">
+        {{ isDark ? '🌞 Light Mode' : '🌙 Dark Mode' }}
+      </button>
+
+      <!-- Widget visibility controls -->
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li v-for="item in widgets" :key="item" style="margin-bottom:0.5em;">
+          <button @click="toggle(item)" style="width:100%;">
+            {{ visibility[item] ? `Hide ${item}` : `Show ${item}` }}
+          </button>
+        </li>
+      </ul>
     </aside>
-  
-   
-    <!-- Main content area where widgets are displayed -->
-    <main style="grid-area: main;">
-      Main Content Area
-      <!-- Loop through each widget and display it with a toggle button -->
+
+    <main>
+      <!-- Render each widget if visible -->
       <div v-for="item in widgets" :key="item" class="widget-row">
-        <!-- Show the widget only if its visibility is true -->
         <div class="widget">
-          <!--render NoteWidget when item is "Notes"-->
-          <NoteWidget 
-           v-show="item === 'Notes' && visibility[item]"
-          />
-          <ClockWidget
-           v-show="item === 'Clock' && visibility[item]"
-          />
+          <NoteWidget    v-show="item === 'Notes'   && visibility[item]" />
+          <ClockWidget   v-show="item === 'Clock'   && visibility[item]" />
+          <WeatherWidget v-show="item === 'Weather' && visibility[item]" />
+          <NewsWidget    v-show="item === 'News'    && visibility[item]" />
 
-          <WeatherWidget
-            v-show="item ==='Weather' && visibility[item]"
-          />
-
-          <NewsWidget 
-            v-show="item==='News' && visibility[item]"
-          />
-          <!--Fallback placeholder for all other widgets-->
-          <div v-show="visibility[item]">  
+          <!-- fallback for unknown widgets -->
+          <div v-show="visibility[item] && !['Notes','Clock','Weather','News'].includes(item)">
             {{ item }} Widget
           </div>
         </div>
-        <!-- Button to toggle the widget's visibility on double-click -->
-        <button @click="toggle(item)">
-          {{ visibility[item] ? 'Hide' : 'Show' }}
-        </button>
       </div>
     </main>
   </div>
 </template>
 
 <style scoped>
-  .dashboard {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 60px 1fr;
-    grid-template-areas:
-      "header header"
-      "sidebar main";
-    height: 100vh;
-  }
-  header {
-    grid-area: header;
-    background: #34495e;
-    color: white;
-    padding: 1em;
-  }
-  aside {
-    grid-area: sidebar;
-    background: #555;   /* dark grey background */
-    color: #fff;        /* white text for readability */
-    padding: 1em;
+.dashboard {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+  height: 100vh;
+}
 
-  }
-  main{
-    grid-area: main;
-    background: #f9f9f9;    /* very light gray for a bit of contrast */
-    color: #333;             /* dark text for readability */
-    padding: 1em;
-    overflow-y: auto;
+header {
+  grid-area: header;
+  background: #34495e;
+  color: white;
+  padding: 1em;
+}
 
-  }
+aside {
+  grid-area: sidebar;
+  background: #555;
+  color: #fff;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
 
-  .widget-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5em;
-  }
-  .widget-row button{
-    background-color: #720e9e
+main {
+  grid-area: main;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 1em;
+  overflow-y: auto;
+}
 
-  }
-  .widget {
-    margin-right: 1em;
-  }
+.widget-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.widget {
+  margin-right: 1em;
+}
+
+/* Style for sidebar buttons, can override with CSS variables */
+aside button {
+  background-color: var(--button-bg);
+  color: var(--fg);
+  border: 1px solid transparent;
+  padding: 0.5em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+aside button:hover {
+  border-color: var(--button-border-hover);
+}
 </style>

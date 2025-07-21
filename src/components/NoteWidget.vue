@@ -39,27 +39,28 @@
             placeholder="Type a note"
             class="new-note"
         />
-        <button @click="addNote()">Add</button>
+        <button class="add-button" @click="addNote()">Add</button>
 
         <ul>
             <li v-for="note in notes" :key="note.id">
                 {{ note.text }}
-                <button @click="removeNote(note.id)">X</button>
+                <button class="add-button" @click="removeNote(note.id)">X</button>
             </li>
         </ul>
     </div>
 </template>
 
-<style scoped>
 
-.note-widget{
-    background: #eef6fd;
-    border: 2px solid #4a90e2;
-    border-radius: 6px;
-    padding: 1em;
-    margin-bottom: 1em;
-    color: #2a3d66;
-    font-weight: bold;
+
+<style scoped>
+.note-widget {
+  background: var(--widget-bg);
+  border: 2px solid var(--widget-border);
+  border-radius: 6px;
+  padding: 1em;
+  margin-bottom: 1em;
+  color: var(--fg);
+  font-weight: bold;
 }
 
 .note-widget ul {
@@ -73,18 +74,39 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.new-note{
-    font-size: 1.1rem
+.new-note {
+  font-size: 1.1rem;
+  padding: 0.5em;
+  border: 1px solid var(--widget-border);
+  border-radius: 4px;
+  margin-right: 0.5em;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.2s, color 0.2s;
 }
-    /* .note-widget{
-        border: 1px solid #ccc;
-        padding: 1rem;
-        margin-bottom: 1em
-    }
 
-    .note-widget ul{list-style: none; padding: 0;}
-    .note-widget li{display: flex; justify-content: space-between;} */
+.add-button {
+  background-color: var(--button-bg);
+  color: var(--fg);
+  border: 1px solid var(--button-border-hover);
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.add-button:hover {
+  border-color: var(--widget-border);
+}
+
+.remove-button {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0.5em;
+}
 </style>
