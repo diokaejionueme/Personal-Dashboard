@@ -12,7 +12,11 @@ onMounted(async () => {
   const apiKey = import.meta.env.VITE_NEWS_API_KEY // API key from .env
   const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&apiKey=${apiKey}`
   try {
-    const res = await fetch(url)
+    const res = await fetch(url, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0',
+        }
+    })
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
     const data = await res.json()
     articles.value = data.articles // Store articles
