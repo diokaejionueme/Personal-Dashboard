@@ -29,7 +29,7 @@ onMounted(() => {
 import NoteWidget from './components/NoteWidget.vue'
 import ClockWidget from './components/ClockWidget.vue'
 import WeatherWidget from './components/WeatherWidget.vue'
-import NewsWidget from './components/newsWidget.vue'
+import NewsWidget from './components/NewsWidget.vue'
 
 // List of widget names
 const widgets = ['Weather', 'Notes', 'News', 'Clock']

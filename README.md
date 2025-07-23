@@ -42,5 +42,3 @@ This project is licensed under the MIT License.
 Email: [diokajr@gmail.com](mailto:diokajr@gmail.com)
 
 ---
-
-_This README will be updated as the project evolves._
